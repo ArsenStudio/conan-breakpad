@@ -1,7 +1,7 @@
 from conans import ConanFile, CMake
 import os
 
-username = os.getenv( '"CONAN_USERNAME', 'shinichy' )
+username = os.getenv( '"CONAN_USERNAME', 'hgs' )
 channel = os.getenv( 'CONAN_CHANNEL', 'testing' )
 
 class TestConan( ConanFile ):
@@ -10,9 +10,9 @@ class TestConan( ConanFile ):
   generators = 'cmake'
 
   def build( self ):
-    cmake = CMake( self.settings )
-    self.run( 'cmake "%s" %s' % ( self.conanfile_directory, cmake.command_line ) )
-    self.run( 'cmake --build . %s' % cmake.build_config )
+    cmake = CMake(self)
+    cmake.configure()
+    cmake.build()
 
   def imports( self ):
     self.copy( '*.dll', 'bin', 'bin' )

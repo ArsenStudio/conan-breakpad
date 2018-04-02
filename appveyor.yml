@@ -5,13 +5,24 @@ environment:
     PYTHON_VERSION: "2.7.8"
     PYTHON_ARCH: "32"
 
-    CONAN_REFERENCE: "breakpad/1.0.0"
-    CONAN_USERNAME: "shinichy"
-    CONAN_CHANNEL: "ci"
-    CONAN_TOTAL_PAGES: 1
+    CONAN_REFERENCE: "breakpad/64"
+    CONAN_USERNAME: "hgs"
+    CONAN_UPLOAD: "https://api.bintray.com/conan/hgs/arsen-deps"
+    CONAN_CHANNEL: "stable"
+    CONAN_STABLE_BRANCH_PATTERN: "release/*"
+
+    CONAN_BUILD_TYPES: "Release"
+    CONAN_ARCHS: "x86_64"
+    CONAN_VISUAL_RUNTIMES: "MD,MDd"
+    CONAN_VISUAL_VERSIONS: "14,15"
+
+    VS150COMNTOOLS: "C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Community\\Common7\\Tools\\"
 
     matrix:
-        - CONAN_CURRENT_PAGE: 1
+        - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+          CONAN_VISUAL_VERSIONS: 14
+        - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+          CONAN_VISUAL_VERSIONS: 15
 
 install:
   - git clone https://chromium.googlesource.com/external/gyp

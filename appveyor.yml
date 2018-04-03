@@ -6,8 +6,8 @@ environment:
     PYTHON_ARCH: "32"
 
     CONAN_REFERENCE: "breakpad/64"
-    CONAN_USERNAME: "hgs"
-    CONAN_UPLOAD: "https://api.bintray.com/conan/hgs/arsen-deps"
+    CONAN_USERNAME: "arsen-studio"
+    CONAN_UPLOAD: "https://api.bintray.com/conan/arsen-studio/arsen-deps"
     CONAN_CHANNEL: "stable"
     CONAN_STABLE_BRANCH_PATTERN: "release/*"
 

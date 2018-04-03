@@ -11,7 +11,7 @@ variables:
 
 before_script:
   - apt-get update -yqq
-  - apt-get install python-dev python-pip cmake git -yqq
+  - apt-get install python-dev python-pip git -yqq
   - pip install conan conan_package_tools
   - conan user
 
@@ -47,9 +47,10 @@ build:clang-5:
   before_script:
     - curl -sL http://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add -
     - echo "deb http://apt.llvm.org/stretch/ llvm-toolchain-stretch-5.0 main" > /etc/apt/sources.list.d/llvm.list
-    - clang -v
     - apt-get update -yqq
-    - apt-get install clang-5.0 python-dev python-pip cmake git -yqq
+    - apt-get install clang-5.0 python-dev python-pip git -yqq
+    - ln -s /usr/bin/clang-5.0 /usr/bin/clang
+    - ln -s /usr/bin/clang++-5.0 /usr/bin/clang++
     - pip install conan conan_package_tools
   script:
     - python build.py
@@ -62,9 +63,10 @@ build:clang-6:
   before_script:
     - curl -sL http://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add -
     - echo "deb http://apt.llvm.org/stretch/ llvm-toolchain-stretch-6.0 main" > /etc/apt/sources.list.d/llvm.list
-    - clang -v
     - apt-get update -yqq
-    - apt-get install clang-6.0 python-dev python-pip cmake git -yqq
+    - apt-get install clang-6.0 python-dev python-pip git -yqq
+    - ln -s /usr/bin/clang-6.0 /usr/bin/clang
+    - ln -s /usr/bin/clang++-6.0 /usr/bin/clang++
     - pip install conan conan_package_tools
   script:
     - python build.py

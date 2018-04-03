@@ -47,6 +47,7 @@ build:clang-5:
   before_script:
     - curl -sL http://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add -
     - echo "deb http://apt.llvm.org/stretch/ llvm-toolchain-stretch-5.0 main" > /etc/apt/sources.list.d/llvm.list
+    - clang -v
     - apt-get update -yqq
     - apt-get install clang-5.0 python-dev python-pip cmake git -yqq
     - pip install conan conan_package_tools
@@ -61,6 +62,7 @@ build:clang-6:
   before_script:
     - curl -sL http://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add -
     - echo "deb http://apt.llvm.org/stretch/ llvm-toolchain-stretch-6.0 main" > /etc/apt/sources.list.d/llvm.list
+    - clang -v
     - apt-get update -yqq
     - apt-get install clang-6.0 python-dev python-pip cmake git -yqq
     - pip install conan conan_package_tools

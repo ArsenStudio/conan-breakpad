@@ -8,6 +8,8 @@ variables:
   CONAN_DOCKER_USE_SUDO: "False"
   CONAN_BUILD_TYPES: "Release"
   CONAN_ARCHS: "x86_64"
+  CONAN_CHANNEL: "testing"
+  CONAN_STABLE_BRANCH_PATTERN: "release/*"
 
 before_script:
   - apt-get update -yqq

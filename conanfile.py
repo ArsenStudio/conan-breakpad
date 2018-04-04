@@ -6,12 +6,12 @@ import shutil
 class BreakpadConan(ConanFile):
     description = "Breakpad is a set of client and server components which implement a crash-reporting system."
     name = 'breakpad'
-    version = '64'
+    version = 'nightly'
     license = 'https://chromium.googlesource.com/breakpad/breakpad/+/master/LICENSE'
     url = 'https://gitlab.com/ArsenStudio/ArsenEngine/dependencies/conan-breakpad'
     settings = 'os', 'compiler', 'build_type', 'arch'
     generators = 'cmake'
-    branch = 'chrome_64'
+    branch = 'master'
     exports = ["FindBREAKPAD.cmake", "patch/*"]
 
     def source(self):

@@ -1,6 +1,6 @@
 env:
    global:
-     - CONAN_REFERENCE: "breakpad/nightly"
+     - CONAN_REFERENCE: "breakpad/64"
      - CONAN_USERNAME: "arsen-studio"
      - CONAN_CHANNEL: "testing"
      - CONAN_STABLE_BRANCH_PATTERN: "release/*"

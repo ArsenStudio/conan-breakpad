@@ -2,7 +2,7 @@ stages:
   - build
 
 variables:
-  CONAN_REFERENCE: "breakpad/nightly"
+  CONAN_REFERENCE: "breakpad/64"
   CONAN_USERNAME: "arsen-studio"
   CONAN_UPLOAD: "https://api.bintray.com/conan/arsen-studio/arsen-deps"
   CONAN_DOCKER_USE_SUDO: "False"

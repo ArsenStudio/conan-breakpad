@@ -6,7 +6,7 @@
 
 |Linux|Windows|OS X|
 |-----|-------|----|
-|[![pipeline status](https://gitlab.com/HeiGameStudio/ArsenEngine/dependencies/conan-breakpad/badges/master/pipeline.svg)](https://gitlab.com/HeiGameStudio/ArsenEngine/dependencies/conan-breakpad/commits/master)|[![Build status](https://ci.appveyor.com/api/projects/status/wajbow75kdy6f493?svg=true)](https://ci.appveyor.com/project/intelligide/conan-breakpad)|[![Build Status](https://travis-ci.org/ArsenStudio/conan-breakpad.svg?branch=master)](https://travis-ci.org/ArsenStudio/conan-breakpad)|
+|[![pipeline status](https://gitlab.com/HeiGameStudio/ArsenEngine/dependencies/conan-breakpad/badges/release/64/pipeline.svg)](https://gitlab.com/HeiGameStudio/ArsenEngine/dependencies/conan-breakpad/commits/release/64)|[![Build status](https://ci.appveyor.com/api/projects/status/wajbow75kdy6f493/branch/release/64?svg=true)](https://ci.appveyor.com/project/intelligide/conan-breakpad)|[![Build Status](https://travis-ci.org/ArsenStudio/conan-breakpad.svg?branch=release%2F64)](https://travis-ci.org/ArsenStudio/conan-breakpad)|
 
 
 ## Example

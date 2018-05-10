@@ -1,10 +1,15 @@
-from conan.packager import ConanMultiPackager
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+from bincrafters import build_template_default
+import os
 
 if __name__ == "__main__":
-    builder = ConanMultiPackager()
-    builder.add_common_builds(pure_c=False)
-    for settings, options, env_vars, build_requires, reference in builder.items:
-        if settings["compiler"] == "clang":
-            env_vars["CC"] = "clang"
-            env_vars["CXX"] = "clang++"
+    remotes = []
+
+    os.environ["CONAN_REMOTES"] = ",".join(remotes)
+    os.environ["CONAN_BUILD_POLICY"] = "missing"
+
+    builder = build_template_default.get_builder()
+
     builder.run()

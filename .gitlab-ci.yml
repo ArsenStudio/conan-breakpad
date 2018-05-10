@@ -1,75 +1,56 @@
-stages:
-  - build
-
 variables:
-  CONAN_REFERENCE: "breakpad/nightly"
-  CONAN_USERNAME: "arsen-studio"
-  CONAN_UPLOAD: "https://api.bintray.com/conan/arsen-studio/arsen-deps"
-  CONAN_DOCKER_USE_SUDO: "False"
-  CONAN_BUILD_TYPES: "Release"
-  CONAN_ARCHS: "x86_64"
-  CONAN_CHANNEL: "testing"
-  CONAN_STABLE_BRANCH_PATTERN: "release/*"
-  CONAN_UPLOAD_ONLY_WHEN_STABLE: "1"
+    CONAN_USERNAME: "arsen-studio"
+    CONAN_UPLOAD: "https://api.bintray.com/conan/arsen-studio/arsen-deps"
 
-before_script:
-  - apt-get update -yqq
-  - apt-get install python-dev python-pip git cmake -yqq
-  - pip install conan conan_package_tools
-  - conan user
 
-build:gcc-5:
-  image: gcc:5
-  variables:
-    CONAN_GCC_VERSIONS: 5
-  stage: build
-  script: 
-    - python build.py
+.build-template: &build-template
+    before_script:
+        - sudo pip install --upgrade conan_package_tools bincrafters_package_tools
+        - conan user
+    script:
+        - python build.py
+    only:
+      - ci_tests
+      - /^stable\/.+$/
 
-build:gcc-6:
-  image: gcc:6
-  variables:
-    CONAN_GCC_VERSIONS: 6
-  stage: build
-  script: 
-    - python build.py
+gcc-4.9:
+    image: lasote/conangcc49
+    variables:
+        CONAN_GCC_VERSIONS: "4.9"
+    <<: *build-template
 
-build:gcc-7:
-  image: gcc:7
-  variables:
-    CONAN_GCC_VERSIONS: 7
-  stage: build
-  script: 
-    - python build.py
+gcc-5:
+    image: lasote/conangcc5
+    variables:
+        CONAN_GCC_VERSIONS: "5"
+    <<: *build-template
 
-build:clang-5:
-  image: buildpack-deps:stretch
-  variables:
-    CONAN_CLANG_VERSIONS: "5.0"
-  stage: build
-  before_script:
-    - curl -sL http://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add -
-    - echo "deb http://apt.llvm.org/stretch/ llvm-toolchain-stretch-5.0 main" > /etc/apt/sources.list.d/llvm.list
-    - apt-get update -yqq
-    - apt-get install clang-5.0 libc++-dev python-dev python-pip git cmake -yqq
-    - ln -s /usr/bin/clang-5.0 /usr/bin/clang
-    - ln -s /usr/bin/clang++-5.0 /usr/bin/clang++
-    - pip install conan conan_package_tools
-  script:
-    - python build.py
+gcc-6:
+    image: lasote/conangcc6
+    variables:
+        CONAN_GCC_VERSIONS: "6"
+    <<: *build-template
 
-build:clang-6:
-  image: buildpack-deps:stretch
-  variables:
-    CONAN_CLANG_VERSIONS: "6.0"
-  stage: build
-  before_script:
-    - curl -sL http://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add -
-    - echo "deb http://apt.llvm.org/stretch/ llvm-toolchain-stretch-6.0 main" > /etc/apt/sources.list.d/llvm.list
-    - apt-get update -yqq
-    - apt-get install clang-6.0 libc++-dev python-dev python-pip git cmake -yqq
-    - ln -s /usr/bin/clang-6.0 /usr/bin/clang
-    - ln -s /usr/bin/clang++-6.0 /usr/bin/clang++
-    - pip install conan conan_package_tools
-  script:
-    - python build.py
+gcc-7:
+    image: lasote/conangcc7
+    variables:
+        CONAN_GCC_VERSIONS: "7"
+    <<: *build-template
+
+clang-4.0:
+    image: lasote/conanclang40
+    variables:
+        CONAN_CLANG_VERSIONS: "4.0"
+    <<: *build-template
+
+clang-5.0:
+    image: lasote/conanclang50
+    variables:
+        CONAN_CLANG_VERSIONS: "5.0"
+    <<: *build-template
+
+clang-6.0:
+    image: lasote/conanclang60
+    variables:
+        CONAN_CLANG_VERSIONS: "6.0"
+    <<: *clang6-build-template

@@ -1,113 +1,72 @@
-# conan-breakpad
-[Conan](https://conan.io) package for the breakpad library (https://chromium.googlesource.com/breakpad/breakpad/).
-
-[![badge](https://img.shields.io/badge/conan.io-breakpad%2F1.0.0-green.svg?logo=data:image/png;base64%2CiVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAMAAAAolt3jAAAA1VBMVEUAAABhlctjlstkl8tlmMtlmMxlmcxmmcxnmsxpnMxpnM1qnc1sn85voM91oM11oc1xotB2oc56pNF6pNJ2ptJ8ptJ8ptN9ptN8p9N5qNJ9p9N9p9R8qtOBqdSAqtOAqtR%2BrNSCrNJ/rdWDrNWCsNWCsNaJs9eLs9iRvNuVvdyVv9yXwd2Zwt6axN6dxt%2Bfx%2BChyeGiyuGjyuCjyuGly%2BGlzOKmzOGozuKoz%2BKqz%2BOq0OOv1OWw1OWw1eWx1eWy1uay1%2Baz1%2Baz1%2Bez2Oe02Oe12ee22ujUGwH3AAAAAXRSTlMAQObYZgAAAAFiS0dEAIgFHUgAAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQfgBQkREyOxFIh/AAAAiklEQVQI12NgAAMbOwY4sLZ2NtQ1coVKWNvoc/Eq8XDr2wB5Ig62ekza9vaOqpK2TpoMzOxaFtwqZua2Bm4makIM7OzMAjoaCqYuxooSUqJALjs7o4yVpbowvzSUy87KqSwmxQfnsrPISyFzWeWAXCkpMaBVIC4bmCsOdgiUKwh3JojLgAQ4ZCE0AMm2D29tZwe6AAAAAElFTkSuQmCC)](http://www.conan.io/source/breakpad/1.0.0/shinichy/stable)
-
+# Conan package of Breakpad
+[ ![Download](https://api.bintray.com/packages/arsen-studio/arsen-deps/breakpad%3Aarsen-studio/images/download.svg) ](https://bintray.com/arsen-studio/arsen-deps/breakpad%3Aarsen-studio/_latestVersion)
 
 |Linux|Windows|OS X|
 |-----|-------|----|
-|[![pipeline status](https://gitlab.com/HeiGameStudio/ArsenEngine/dependencies/conan-breakpad/badges/master/pipeline.svg)](https://gitlab.com/HeiGameStudio/ArsenEngine/dependencies/conan-breakpad/commits/master)|[![Build status](https://ci.appveyor.com/api/projects/status/wajbow75kdy6f493?svg=true)](https://ci.appveyor.com/project/intelligide/conan-breakpad)|[![Build Status](https://travis-ci.org/ArsenStudio/conan-breakpad.svg?branch=master)](https://travis-ci.org/ArsenStudio/conan-breakpad)|
+|[![pipeline status](https://gitlab.com/HeiGameStudio/ArsenEngine/dependencies/conan-breakpad/badges/stable/20181304/pipeline.svg)](https://gitlab.com/ArsenStudio/ArsenEngine/dependencies/conan-breakpad/commits/master)|[![Build status](https://ci.appveyor.com/api/projects/status/wajbow75kdy6f493/branch/stable/20181304?svg=true)](https://gitlab.com/ArsenStudio/ArsenEngine/dependencies/conan-breakpad/commits/master)|[![Build Status](https://travis-ci.org/ArsenStudio/conan-breakpad.svg?branch=stable%2F20181304)](https://gitlab.com/ArsenStudio/ArsenEngine/dependencies/conan-breakpad/commits/master)|
 
+[Conan.io](https://conan.io) package for [Breakpad](https://chromium.googlesource.com/breakpad/breakpad/) library. This package includes main library and utilities.
 
-## Example
+The packages generated with this **conanfile** can be found in [bintray.com](https://bintray.com/arsen-studio/arsen-deps/breakpad%3Aarsen-studio).
 
-The following example shows how to use this Conan package with CMake.  See Conan's
-documentation for other generators if you are not using CMake.
+## Setup
+To configure Conan client to work with Arsen packages, you will need to add repository to the list of remotes. To add repository, use the following command: 
+```
+conan remote add arsen-deps https://api.bintray.com/conan/arsen-studio/arsen-deps 
+```
 
-Add the package to your project's *conanfile.txt*:
+### Basic
+
+```
+$ conan install breakpad/latest@arsen-studio/stable
+```
+
+### Project setup
+
+If you handle multiple dependencies in your project is better to add a *conanfile.txt*
 
 ```
 [requires]
-breakpad/1.0.0@shinichy/stable
+breakpad/latest@arsen-studio/stable
+
+[options]
+breakpad:shared=true # false
 
 [generators]
+txt
 cmake
 ```
 
-Your *CMakeLists.txt*:
-
-```CMake
-cmake_minimum_required( VERSION 2.8.12 )
-project( PackageTest )
-
-include( ${CMAKE_BINARY_DIR}/conanbuildinfo.cmake )
-conan_basic_setup()
-
-if (APPLE)
-  find_library(BREAKPAD NAMES Breakpad)
-  if (NOT BREAKPAD)
-    message(FATAL_ERROR "Breakpad not found")
-  endif()
-elseif (MSVC)
-  find_package(BREAKPAD)
-  if(NOT BREAKPAD_FOUND)
-    message(FATAL_ERROR "Breakpad not found")
-  endif ()
-  set(CMAKE_CXX_FLAGS "/wd4091 /wd4577")
-endif ()
-
-add_executable( example example.cpp )
-
-if (APPLE)
-  target_link_libraries( example ${BREAKPAD} )
-  file(COPY ${BREAKPAD} DESTINATION Frameworks)
-elseif (MSVC)
-  include_directories(${BREAKPAD_INCLUDE_DIRS})
-  target_link_libraries( example ${BREAKPAD_LIBRARIES} )
-endif ()
-```
-
-And then your *example.cpp*:
-
-```cpp
-#ifdef __APPLE__
-#include "client/mac/handler/exception_handler.h"
-
-static bool dumpCallback(const char* _dump_dir, const char* _minidump_id, void* context, bool success) {
-  printf("Dump path: %s\n", _dump_dir);
-  return success;
-}
-#endif
-
-#ifdef _WIN32
-#include "client/windows/handler/exception_handler.h"
-
-bool dumpCallback(const wchar_t* _dump_dir,
-                  const wchar_t* _minidump_id,
-                  void* context,
-                  EXCEPTION_POINTERS* exinfo,
-                  MDRawAssertionInfo* assertion,
-                  bool success) {
-  wprintf(L"Dump path: %s\n", _dump_dir);
-  return true;
-}
-#endif
-
-void makeCrash() { volatile int* a = (int*)(NULL); *a = 1; }
-
-int main(int argc, char* argv[]) {
-#ifdef __APPLE__
-  std::string path = "/tmp";
-  google_breakpad::ExceptionHandler eh(path, NULL, dumpCallback, NULL, true, NULL);
-#endif
-
-#ifdef _WIN32
-  std::wstring path = L"C:\\tmp";
-  google_breakpad::ExceptionHandler eh(path, 0, dumpCallback, 0, google_breakpad::ExceptionHandler::HandlerType::HANDLER_ALL);
-#endif
-
-  makeCrash();
-  return 0;
-}
+Complete the installation of requirements for your project running:
 
 ```
-
-Then you can use it as:
-
-```bash
-$ mkdir build && cd build
-$ conan install ..
-$ cmake .. -G "Visual Studio 14 Win64"
-$ cmake --build . --config Release
-$ bin/example
+conan install .
 ```
+
+Project setup installs the library (and all his dependencies) and generates the files *conanbuildinfo.txt* and *conanbuildinfo.cmake* with all the paths and variables that you need to link with your dependencies.
+
+## Develop the package
+
+### Build packages
+
+    $ pip install conan_package_tools bincrafters_package_tools
+    $ python build.py
+
+### Upload packages to server
+
+    $ conan upload breakpad/latest@arsen-studio/stable --all
+
+## Issues
+
+If you wish to report an issue, please do so here:
+
+https://gitlab.com/ArsenStudio/ArsenEngine/dependencies/conan-breakpad/issues
+
+For any pull or merge request, please do so here:
+
+https://gitlab.com/ArsenStudio/ArsenEngine/dependencies/conan-breakpad/merge_requests
+
+
+## License
+
+[MIT LICENSE](LICENSE)

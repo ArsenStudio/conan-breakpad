@@ -1,34 +1,33 @@
+branches:
+  only:
+    - ci_tests
+    - /^stable\/.+$/
+
 env:
    global:
-     - CONAN_REFERENCE: "breakpad/nightly"
      - CONAN_USERNAME: "arsen-studio"
-     - CONAN_CHANNEL: "testing"
-     - CONAN_STABLE_BRANCH_PATTERN: "release/*"
      - CONAN_UPLOAD: "https://api.bintray.com/conan/arsen-studio/arsen-deps"
-     - CONAN_UPLOAD_ONLY_WHEN_STABLE: 1
-     - CONAN_ARCHS: "x86_64"
 
 osx: &osx
    os: osx
    language: generic
 matrix:
    include:
-
       - <<: *osx
         osx_image: xcode7.3
         env: CONAN_APPLE_CLANG_VERSIONS=7.3
-
       - <<: *osx
         osx_image: xcode8
         env: CONAN_APPLE_CLANG_VERSIONS=8.0
-
       - <<: *osx
         osx_image: xcode8.3
         env: CONAN_APPLE_CLANG_VERSIONS=8.1
-
       - <<: *osx
         osx_image: xcode9
         env: CONAN_APPLE_CLANG_VERSIONS=9.0
+      - <<: *osx
+        osx_image: xcode9.3
+        env: CONAN_APPLE_CLANG_VERSIONS=9.1
 
 install:
   - chmod +x .travis/install.sh

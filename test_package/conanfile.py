@@ -1,20 +1,25 @@
-from conans import ConanFile, CMake
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+from conans import ConanFile, CMake, tools
 import os
 
 
 class TestConan(ConanFile):
-  settings = 'os', 'compiler', 'build_type', 'arch'
-  generators = 'cmake'
+    settings = 'os', 'compiler', 'build_type', 'arch'
+    generators = "cmake"
 
-  def build( self ):
-    cmake = CMake(self)
-    cmake.configure()
-    cmake.build()
+    def build(self):
+        cmake = CMake(self)
+        cmake.configure()
+        cmake.build()
 
-  def imports( self ):
-    self.copy('*.dll', 'bin', 'bin')
-    self.copy('*.dylib', 'bin', 'bin')
+    def imports(self):
+        self.copy("*.dll", dst="bin", src="bin")
+        self.copy("*.dylib*", dst="bin", src="lib")
+        self.copy('*.so*', dst='bin', src='lib')
 
-  def test( self ):
-    os.chdir( 'bin' )
-    self.run( '.%sexample' % os.sep )
+    def test(self):
+        if not tools.cross_building(self.settings):
+            os.chdir("bin")
+            self.run(".%stest_package" % os.sep)

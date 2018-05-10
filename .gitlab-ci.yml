@@ -53,4 +53,4 @@ clang-6.0:
     image: lasote/conanclang60
     variables:
         CONAN_CLANG_VERSIONS: "6.0"
-    <<: *clang6-build-template
+    <<: *build-template

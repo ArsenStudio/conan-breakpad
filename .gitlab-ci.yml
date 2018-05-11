@@ -6,6 +6,7 @@ variables:
 
 .build-template: &build-template
     before_script:
+        - sudo ln -s /usr/include/linux/a.out.h /usr/include/a.out.h
         - sudo pip install --upgrade conan_package_tools bincrafters_package_tools
         - conan user
     script:

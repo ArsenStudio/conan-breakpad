@@ -40,6 +40,7 @@ class BreakpadConan(ConanFile):
 
     def build(self):
         absolute_source_subfolder = os.path.abspath(self.source_subfolder)
+        tools.mkdir(self.build_subfolder)
         with tools.chdir(self.build_subfolder):
 
             if self.settings.os == 'Macos':

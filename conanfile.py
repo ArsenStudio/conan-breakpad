@@ -30,11 +30,11 @@ class BreakpadConan(ConanFile):
     commit = "9eac2058b70615519b2c4d8c6bdbfca1bd079e39"
 
     def source(self):
-        GitRepository("https://chromium.googlesource.com/breakpad/breakpad",
+        GitRepository(self, "https://chromium.googlesource.com/breakpad/breakpad",
                       commit=self.commit).get(self.source_subfolder)
 
         if self.settings.os == 'Linux':
-            GitRepository("https://chromium.googlesource.com/linux-syscall-support",
+            GitRepository(self, "https://chromium.googlesource.com/linux-syscall-support",
                           commit="a89bf7903f3169e6bc7b8efc10a73a7571de21cf") \
                          .get(os.path.join(self.source_subfolder, "src/third_party/lss"))
 

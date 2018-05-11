@@ -76,7 +76,8 @@ class BreakpadConan(ConanFile):
         if self.settings.os == 'Macos':
             self.copy('*.h', dst='include/client/mac', src=self.source_subfolder + '/src/client/mac')
             # self.copy doesn't preserve symbolic links
-            shutil.copytree('breakpad/src/client/mac/build/{0}/Breakpad.framework'.format(self.settings.build_type),
+            shutil.copytree(self.source_subfolder + '/src/client/mac/build/{0}/Breakpad.framework'
+                            .format(self.settings.build_type),
                             os.path.join(self.package_folder, 'lib', 'Breakpad.framework'), symlinks=True)
         elif self.settings.os == 'Windows':
             self.copy('*.h', dst='include/client/windows', src=self.source_subfolder + '/src/client/windows')

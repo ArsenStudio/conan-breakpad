@@ -14,7 +14,7 @@ class BreakpadConan(ConanFile):
     # Breakpad License
     license = "BSD-3-Clause"
 
-    exports = ["LICENSE.md", "FindBREAKPAD.cmake", "patch/*"]
+    exports = ["LICENSE.md", "utils/*", "FindBREAKPAD.cmake", "patch/*"]
 
     exports_sources = ["CMakeLists.txt"]
     generators = "cmake"

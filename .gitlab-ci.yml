@@ -1,4 +1,5 @@
 variables:
+    GIT_SUBMODULE_STRATEGY: recursive
     CONAN_USERNAME: "arsen-studio"
     CONAN_UPLOAD: "https://api.bintray.com/conan/arsen-studio/arsen-deps"
 

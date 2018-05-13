@@ -49,7 +49,7 @@ class BreakpadConan(ConanFile):
                          " -target Breakpad ARCHS={archs} ONLY_ACTIVE_ARCH=YES -configuration {config}")
                          .format(source_folder=absolute_source_subfolder, archs=arch, config=self.settings.build_type))
             elif self.settings.os == 'Windows':
-                tools.patch(patch_file="patch/common.gypi.patch", base_path=self.source_subfolder)
+                tools.patch(patch_file="../patch/common.gypi.patch", base_path=absolute_source_subfolder)
                 self.run("gyp --no-circular-check -D win_release_RuntimeLibrary=2 -D win_debug_RuntimeLibrary=3 " +
                          "{source_folder}/src/client/windows/breakpad_client.gyp"
                          .format(source_folder=absolute_source_subfolder))
@@ -76,21 +76,8 @@ class BreakpadConan(ConanFile):
         if self.settings.os == 'Macos':
             self.copy('*.h', dst='include/client/mac', src=self.source_subfolder + '/src/client/mac')
 
-            try:
-                self.run("ls -la " + self.build_subfolder + '/src/client/mac/build/{0}/Breakpad.framework'.format(self.settings.build_type))
-            except:
-                pass
-            try:
-                self.run("ls -la " + self.build_subfolder + "/" + self.source_subfolder + '/src/client/mac/build/{0}/Breakpad.framework'.format(self.settings.build_type))
-            except:
-                pass
-            try:
-                self.run("ls -la " + self.source_subfolder + '/src/client/mac/build/{0}/Breakpad.framework'.format(self.settings.build_type))
-            except:
-                pass
-
             # self.copy doesn't preserve symbolic links
-            shutil.copytree(self.build_subfolder + '/src/client/mac/build/{0}/Breakpad.framework'
+            shutil.copytree(self.source_subfolder + '/src/client/mac/build/{0}/Breakpad.framework'
                             .format(self.settings.build_type),
                             os.path.join(self.package_folder, 'lib', 'Breakpad.framework'), symlinks=True)
         elif self.settings.os == 'Windows':

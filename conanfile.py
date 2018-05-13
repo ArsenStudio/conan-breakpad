@@ -81,7 +81,7 @@ class BreakpadConan(ConanFile):
             except:
                 pass
             try:
-                self.run("ls -la " self.build_subfolder + "/" + self.source_subfolder + '/src/client/mac/build/{0}/Breakpad.framework').format(self.settings.build_type)
+                self.run("ls -la " + self.build_subfolder + "/" + self.source_subfolder + '/src/client/mac/build/{0}/Breakpad.framework').format(self.settings.build_type)
             except:
                 pass
             try:

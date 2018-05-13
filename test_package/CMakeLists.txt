@@ -3,6 +3,8 @@ project(test_package)
 
 set(CMAKE_VERBOSE_MAKEFILE TRUE)
 
+set(CMAKE_CXX_STANDARD 11)
+
 include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 conan_basic_setup()
 

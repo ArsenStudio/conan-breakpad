@@ -38,6 +38,7 @@ environment:
           CONAN_BUILD_TYPES: Debug
 
 install:
+  - git submodule update --init --recursive
   - git clone https://chromium.googlesource.com/external/gyp
   - cd gyp
   - python setup.py install

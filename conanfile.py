@@ -24,6 +24,7 @@ class BreakpadConan(ConanFile):
         "shared": [True, False]
     }
     default_options = "shared=False"
+    short_paths = True
 
     source_subfolder = "source_subfolder"
     build_subfolder = "build_subfolder"

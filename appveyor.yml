@@ -6,8 +6,8 @@ branches:
 build: false
 
 environment:
-    PYTHON: "C:\\Python27"
-    PYTHON_VERSION: "2.7.8"
+    PYTHON: "C:\\Python36"
+    PYTHON_VERSION: "3.6.5"
     PYTHON_ARCH: "32"
 
     CONAN_UPLOAD: "https://api.bintray.com/conan/arsen-studio/arsen-deps"

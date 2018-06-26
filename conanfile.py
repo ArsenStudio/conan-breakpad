@@ -37,10 +37,10 @@ class BreakpadConan(ConanFile):
         srcdl.get(self.source_subfolder)
 
         if self.settings.os == 'Linux':
-                srcdl = SourceDownloader(self)
-                srcdl.addRepository(GitRepository(self, "https://chromium.googlesource.com/linux-syscall-support",
-                                                  commit="a89bf7903f3169e6bc7b8efc10a73a7571de21cf"))
-                srcdl.get(os.path.join(self.source_subfolder, "src/third_party/lss"))
+            srcdl = SourceDownloader(self)
+            srcdl.addRepository(GitRepository(self, "https://chromium.googlesource.com/linux-syscall-support",
+                                                commit="a89bf7903f3169e6bc7b8efc10a73a7571de21cf"))
+            srcdl.get(os.path.join(self.source_subfolder, "src/third_party/lss"))
 
     def build(self):
         absolute_source_subfolder = os.path.abspath(self.source_subfolder)
@@ -87,16 +87,16 @@ class BreakpadConan(ConanFile):
         elif self.settings.os == 'Windows':
             self.copy('*.h', dst='include/client/windows', src=self.source_subfolder + '/src/client/windows')
             self.copy('*.h', dst='include/google_breakpad', src=self.source_subfolder + '/src/google_breakpad')
-            self.copy('*.lib', dst='lib', src=self.source_subfolder + '/src/client/windows/' + self.settings.build_type,
+            self.copy('*.lib', dst='lib', src=self.source_subfolder + '/src/client/windows/' + str(self.settings.build_type),
                       keep_path=False)
             self.copy('*.lib', dst='lib',
-                      src=self.source_subfolder + '/src/client/windows/handler/' + self.settings.build_type,
+                      src=self.source_subfolder + '/src/client/windows/handler/' + str(self.settings.build_type),
                       keep_path=False)
             self.copy('*.lib', dst='lib',
-                      src=self.source_subfolder + '/src/client/windows/crash_generation/' + self.settings.build_type,
+                      src=self.source_subfolder + '/src/client/windows/crash_generation/' + str(self.settings.build_type),
                       keep_path=False)
             self.copy('*.lib', dst='lib',
-                      src=self.source_subfolder + '/src/client/windows/sender/' + self.settings.build_type,
+                      src=self.source_subfolder + '/src/client/windows/sender/' + str(self.settings.build_type),
                       keep_path=False)
             self.copy('*.exe', dst='bin', src=self.source_subfolder + '/src/tools/windows/binaries')
         elif self.settings.os == 'Linux':

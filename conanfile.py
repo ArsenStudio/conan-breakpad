@@ -39,7 +39,7 @@ class BreakpadConan(ConanFile):
         if self.settings.os == 'Linux':
             srcdl = SourceDownloader(self)
             srcdl.addRepository(GitRepository(self, "https://chromium.googlesource.com/linux-syscall-support",
-                                                commit="a89bf7903f3169e6bc7b8efc10a73a7571de21cf"))
+                                              commit="a89bf7903f3169e6bc7b8efc10a73a7571de21cf"))
             srcdl.get(os.path.join(self.source_subfolder, "src/third_party/lss"))
 
     def build(self):
@@ -52,7 +52,7 @@ class BreakpadConan(ConanFile):
                 self.run(("xcodebuild -project {source_folder}/src/client/mac/Breakpad.xcodeproj -sdk macosx" +
                          " -target Breakpad ARCHS={archs} ONLY_ACTIVE_ARCH=YES -configuration {config}")
                          .format(source_folder=absolute_source_subfolder, archs=arch, config=self.settings.build_type))
-            elif self.settings.os == 'Windows':
+            elif self.settings.compiler == 'Visual Studio':
                 tools.patch(patch_file="../patch/common.gypi.patch", base_path=absolute_source_subfolder)
                 self.run("gyp --no-circular-check -D win_release_RuntimeLibrary=2 -D win_debug_RuntimeLibrary=3 " +
                          "{source_folder}/src/client/windows/breakpad_client.gyp"
@@ -67,7 +67,7 @@ class BreakpadConan(ConanFile):
                 msbuild.build(sln_filepath + "crash_generation/crash_generation_server.vcxproj")
                 msbuild.build(sln_filepath + "sender/crash_report_sender.vcxproj")
 
-            elif self.settings.os == 'Linux':
+            elif self.settings.os == 'Linux' or (self.settings.os == 'Windows' and self.settings.compiler == 'gcc'):
                 env_build = AutoToolsBuildEnvironment(self)
                 env_build.configure(absolute_source_subfolder)
                 env_build.make()

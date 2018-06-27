@@ -114,6 +114,5 @@ class BreakpadConan(ConanFile):
             self.copy("sym_upload", dst="bin", src="src/tools/linux/symupload/")
 
     def package_info(self):
-        if self.settings.os == 'Windows':
-            self.cpp_info.libs = ['breakpad']
+        self.cpp_info.libs = tools.collect_libs(self)
         self.env_info.path.append(os.path.join(self.package_folder, "bin"))

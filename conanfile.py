@@ -30,6 +30,15 @@ class BreakpadConan(ConanFile):
     build_subfolder = "build_subfolder"
     commit = "9eac2058b70615519b2c4d8c6bdbfca1bd079e39"
 
+    @property
+    def is_mingw(self):
+        return self.settings.compiler == 'gcc' and self.settings.os == 'Windows'
+
+    def build_requirements(self):
+        if self.is_mingw:
+            self.build_requires('msys2_installer/latest@bincrafters/stable')
+            self.build_requires('mingw_installer/1.0@conan/stable')
+
     def source(self):
         srcdl = SourceDownloader(self)
         srcdl.addRepository(GitRepository(self, "https://chromium.googlesource.com/breakpad/breakpad",
@@ -67,10 +76,19 @@ class BreakpadConan(ConanFile):
                 msbuild.build(sln_filepath + "crash_generation/crash_generation_server.vcxproj")
                 msbuild.build(sln_filepath + "sender/crash_report_sender.vcxproj")
 
-            elif self.settings.os == 'Linux' or (self.settings.os == 'Windows' and self.settings.compiler == 'gcc'):
-                env_build = AutoToolsBuildEnvironment(self)
-                env_build.configure(absolute_source_subfolder)
-                env_build.make()
+            elif self.is_mingw:
+                msys_bin = self.deps_env_info['msys2_installer'].MSYS_BIN
+                with tools.environment_append({'PATH': [msys_bin],
+                                               'CONAN_BASH_PATH': os.path.join(msys_bin, 'bash.exe')}):
+                    self.build_unix(absolute_source_subfolder)
+
+            elif self.settings.os == 'Linux':
+                self.build_unix(absolute_source_subfolder)
+
+    def build_unix(self, source_dir):
+        env_build = AutoToolsBuildEnvironment(self, win_bash=self.is_mingw)
+        env_build.configure(source_dir)
+        env_build.make()
 
     def package(self):
         self.copy(pattern="LICENSE", dst="licenses", src=self.source_subfolder)
